@@ -49,7 +49,6 @@ class TodoBase(BaseModel):
         return value
 
 
-
 class TodoCreate(TodoBase):
     pass
 
