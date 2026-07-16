@@ -24,7 +24,10 @@ class TodoBase(BaseModel):
     def _validate_due_date(cls, value: str | None) -> str | None:
         if value is None:
             return value
-        date.fromisoformat(value)
+        try:
+            date.fromisoformat(value)
+        except ValueError as exc:
+            raise ValueError("due_date must be an ISO-8601 date string") from exc
         return value
 
     @field_validator("priority")
@@ -46,6 +49,7 @@ class TodoBase(BaseModel):
         return value
 
 
+
 class TodoCreate(TodoBase):
     pass
 
@@ -55,7 +59,14 @@ class TodoUpdate(TodoBase):
 
 
 class TodoReorder(BaseModel):
-    ordered_ids: list[int]
+    ordered_ids: list[int] = Field(min_length=1)
+
+    @field_validator("ordered_ids")
+    @classmethod
+    def _validate_ordered_ids(cls, value: list[int]) -> list[int]:
+        if len(set(value)) != len(value):
+            raise ValueError("ordered_ids must not contain duplicates")
+        return value
 
 
 class TodoOut(BaseModel):
