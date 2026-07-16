@@ -235,3 +235,4 @@ PY
         run: |
           echo "Health check should poll GET /health or /healthz for 200 within 60 seconds after deploy."
           echo "Rollback should redeploy the previous image digest within 5 minutes."
+          echo "Workflow remains deploy-ready without hardcoding a target."
