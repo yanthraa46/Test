@@ -157,7 +157,7 @@ export default function App() {
   }
 
   async function handleDelete(todo: Todo) {
-    const confirmed = window.confirm(`Delete "${todo.title}"?`);
+    const confirmed = window.confirm(`Delete \"${todo.title}\"?`);
     if (!confirmed) return;
 
     setBusyId(todo.id);
@@ -302,7 +302,7 @@ export default function App() {
                 </p>
               </div>
             </div>
-            {(loading || reorderBusy) ? (
+            {loading || reorderBusy ? (
               <div className="inline-flex items-center gap-2 text-sm text-muted-foreground" aria-live="polite">
                 <LoaderCircle className="h-4 w-4 animate-spin" />
                 {reorderBusy ? 'Saving new order...' : 'Loading todos...'}
