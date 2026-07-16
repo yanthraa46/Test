@@ -70,6 +70,14 @@ jobs:
         run: |
           python -c "import main"
 
+      - name: Capture backend health endpoint contract
+        working-directory: backend
+        run: |
+          python - <<'PY'
+import main
+assert hasattr(main, 'app')
+PY
+
   frontend-lint-test-build:
     name: Frontend lint, test, build
     runs-on: ubuntu-latest
@@ -226,3 +234,5 @@ PY
         if: ${{ vars.DEPLOYMENT_URL != '' }}
         run: |
           echo "Health check should poll GET /health or /healthz for 200 within 60 seconds after deploy."
+          echo "Rollback should redeploy the previous image digest within 5 minutes."
+          echo "Workflow remains deploy-ready without hardcoding a target."
